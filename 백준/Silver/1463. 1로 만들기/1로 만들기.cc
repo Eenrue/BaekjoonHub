@@ -1,40 +1,29 @@
-#include<iostream>
-#include <vector>
-#include <cmath>
+#include <iostream>
 #include <algorithm>
 using namespace std;
 
-int ls[1000002] = { 0, };
-int line = 0;
+int DP[1000000];
 
-void dp(int x) {
-    if (x <= 1) return;
-    else {
-        if (x % 2 == 0) {
-            if (ls[x / 2] == 0 || ls[x] + 1 < ls[x / 2]) {
-                ls[x / 2] = ls[x] + 1;
-                dp(x / 2);
-            }
-        }
-        if (x % 3 == 0) {
-            if (ls[x / 3] == 0 || ls[x] + 1 < ls[x / 3]) {
-                ls[x / 3] = ls[x] + 1;
-                dp(x / 3);
-            }
-        }
-        if (ls[x-1] == 0 || ls[x] + 1 < ls[x-1]) {
-            ls[x-1] = ls[x] + 1;
-            dp(x-1);
-        }
-    }
-}
+int main() {
+	int N;
+	cin >> N;
 
-int main()
-{
-    cin >> line;
-    
-    dp(line);
-    cout << ls[1];
+	for (int i = 2; i <= N; i++) {
+		// 1. 1을 뺀다.
+		DP[i] = DP[i - 1] + 1;
 
-    return 0;
+		// 2. 2로 나누어지면
+		if (i % 2 == 0) {
+			DP[i] = min(DP[i], DP[i / 2] + 1);
+		}
+
+		// 3. 3으로 나누어지면
+		if (i % 3 == 0) {
+			DP[i] = min(DP[i], DP[i / 3] + 1);
+		}
+	}
+
+	cout << DP[N];
+
+	return 0;
 }
