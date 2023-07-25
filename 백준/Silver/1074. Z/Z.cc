@@ -1,43 +1,25 @@
-#include<iostream>
-#include <vector>
+#include <iostream>
 #include <cmath>
-#include <algorithm>
 using namespace std;
-
-int check(int r, int c) {
-	int cnt = 0;
-	int tmp = max(r, c);
-	if (tmp <= 1) {
-		if (r == 0 && c == 0) return 1;
-		if (r == 0 && c == 1) return 2;
-		if (r == 1 && c == 0) return 3;
-		if (r == 1 && c == 1) return 4;
-	}
-
-	while (tmp > pow(2, cnt)-1) {
-		cnt++;
-	} //
-
-	int line = pow(2, cnt - 1);
-	if (c > line-1 && r <= line-1) {
-		return pow(4, cnt - 1) + check(r, c - line);
-	}
-	if (c <= line-1 && r > line-1) {
-		return 2*pow(4, cnt - 1) + check(r - line, c );
-	}
-	if (c > line-1 && r > line-1) {
-		return 3 * pow(4, cnt - 1) + check(r - line, c - line);
-	}
-	else return 0;
+int n, r, c;
+int ans = 0;
+void dc(int x, int y, int size){
+    if(c==x && r==y){ // 찾으려는 열과 행이 일치하면 
+        cout << ans;
+        return;
+    }
+    else if (c < x + size && r < y + size && c >= x && r >= y){
+        //찾으려는 열과 행이 4분면안에 있을 경우
+        dc(x, y, size / 2);
+        dc(x + size / 2, y, size / 2);
+        dc(x, y + size / 2, size / 2);
+        dc(x + size / 2, y + size / 2, size / 2);
+    }else{ // 없다면 숫자 카운트 -> 정사각형 넓이
+        ans += size * size;
+    }
 }
-
-int main()
-{
-	int N;
-	int r, c;
-	cin >> N >> r >> c;
-	cout << check(r, c)-1;
-
-
-	return 0;
+int main(){
+    cin >> n >> r >> c;
+    dc(0, 0, pow(2, n));
+    return 0;
 }
