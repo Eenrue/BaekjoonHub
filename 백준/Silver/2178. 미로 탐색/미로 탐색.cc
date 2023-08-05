@@ -7,6 +7,7 @@ vector<int> ans;
 int n,m;
 int miro[102][102];
 int score[102][102];
+int dir[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
 
 void bfs(){
     deque<pair<int,int>> dq;
@@ -15,30 +16,15 @@ void bfs(){
     while(1){
         pair<int,int> f=dq.front();
         dq.pop_front();
-        if(f.first==n&&f.second==m) return;
-        if(miro[f.first+1][f.second]&&f.first<=n){
-            if(!score[f.first+1][f.second]){
-                score[f.first+1][f.second]=score[f.first][f.second]+1;
-                dq.push_back({f.first+1,f.second});
-            }
-        }
-        if(miro[f.first][f.second+1]&&f.second<=m){
-            if(!score[f.first][f.second+1]){
-                score[f.first][f.second+1]=score[f.first][f.second]+1;
-                dq.push_back({f.first,f.second+1});
-
-            }
-        }
-        if(miro[f.first-1][f.second]){
-            if(!score[f.first-1][f.second]){
-                score[f.first-1][f.second]=score[f.first][f.second]+1;
-                dq.push_back({f.first-1,f.second});
-            }
-        }
-        if(miro[f.first][f.second-1]){
-            if(!score[f.first][f.second-1]){
-                score[f.first][f.second-1]=score[f.first][f.second]+1;
-                dq.push_back({f.first,f.second-1});
+        int y=f.first;
+        int x=f.second;
+        if(y==n&&x==m) return;
+        for (int i=0;i<4;i++){
+            int ny=y+dir[i][0];
+            int nx=x+dir[i][1];
+            if(miro[ny][nx]&&!score[ny][nx]){
+                score[ny][nx]=score[y][x]+1;
+                dq.push_back({ny,nx});
             }
         }
     }
