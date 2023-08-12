@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-
 
 int main()
 {
@@ -20,14 +18,9 @@ int main()
         uv.push_back(tmp);
     }
     sort(uv.begin(),uv.end());
-    unique(uv.begin(),uv.end());
-
-    map<int,int> m;
-    for(int i=0;i<uv.size();i++){
-        m.insert({uv[i],i});
-    }
+    uv.erase(unique(uv.begin(),uv.end()),uv.end());
 
     for(int i=0;i<n;i++){
-        cout<<m[v[i]]<<' ';
+        cout<<lower_bound(uv.begin(),uv.end(),v[i])-uv.begin()<<' ';
     }
 }
