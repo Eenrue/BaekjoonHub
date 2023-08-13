@@ -28,14 +28,14 @@ void cal(){
     else{
        cout<<"[";
        if(rev){
-            while(!q.empty()){
+            while(q.size()){
                 if(q.size()!=1) cout<<q.back()<<",";
                 else cout<<q.back();
                 q.pop_back();
             }
        }
        else{
-            while(!q.empty()){
+            while(q.size()){
                 if(q.size()!=1) cout<<q.front()<<",";
                 else cout<<q.front();
                 q.pop_front();
