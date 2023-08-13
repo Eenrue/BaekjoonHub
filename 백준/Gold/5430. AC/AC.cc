@@ -29,16 +29,16 @@ void cal(){
        cout<<"[";
        if(rev){
             while(q.size()){
-                if(q.size()!=1) cout<<q.back()<<",";
-                else cout<<q.back();
+                cout<<q.back();
                 q.pop_back();
+                if(q.size()!=0) cout<<",";
             }
        }
        else{
             while(q.size()){
-                if(q.size()!=1) cout<<q.front()<<",";
-                else cout<<q.front();
+                cout<<q.front();
                 q.pop_front();
+                if(q.size()!=0) cout<<",";
             }
         }
         cout<<"]\n";
