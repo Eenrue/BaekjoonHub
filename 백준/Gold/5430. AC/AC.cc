@@ -1,63 +1,72 @@
-#include <iostream>
-#include <algorithm>
-#include <queue>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
-int main(){
-    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
-    int t,n;
-    cin>>t;
-    for(int i=0;i<t;i++){
-        bool err=false;
-        deque <int> arr;
-        string cmd,input;
-        cin>>cmd;
-        cin>>n;
-        cin>>input;
-        string tmp="";
-        if(n!=0){
-            for(int j=0;j<input.length();j++){
-                if(input[j]=='[' || input[j]==']' || input[j]==','){
-                    if(input[j]!='[') arr.push_back(stoi(tmp));
-                    tmp="";
-                    continue;
-                }
-                tmp+=input[j];
-            }
+
+int n;
+deque<int> q;
+string str;
+
+void cal(){
+    int flag=0;
+    int rev=0;
+    char fun;
+    for(int i=0;i<str.size();i++){
+        if(flag) break;
+        fun=str[i];
+        if(fun=='R'){
+            rev=rev^1;
         }
-        int rev = 1;
-        for(int j=0;j<cmd.length();j++){
-            if(cmd[j]=='R'){
-                rev *= -1;
+        else if(fun=='D'){
+            if(q.size()==0){
+                flag=1;
+                continue;
             }
-            else{
-                if(arr.size()==0) {
-                    cout<<"error"<<"\n";
-                    err=true;
-                    break;
-                }
-                if(rev==1) arr.pop_front();
-                else arr.pop_back();
-            }
-        }
-        if(!err){
-            cout<<"[";
-            if(rev==1){
-                while(!arr.empty()){
-                    if(arr.size()!=1) cout<<arr.front()<<",";
-                    else cout<<arr.front();
-                    arr.pop_front();
-                }
-            }
-            else{
-                while(!arr.empty()){
-                    if(arr.size()!=1) cout<<arr.back()<<",";
-                    else cout<<arr.back();
-                    arr.pop_back();
-                }
-            }
-            cout<<"]\n";
+            if(rev) q.pop_back();
+            else q.pop_front();
         }
     }
-    return 0;
+    if(flag) cout<<"error\n";
+    else{
+       cout<<"[";
+       if(rev){
+            while(!q.empty()){
+                if(q.size()!=1) cout<<q.back()<<",";
+                else cout<<q.back();
+                q.pop_back();
+            }
+       }
+       else{
+            while(!q.empty()){
+                if(q.size()!=1) cout<<q.front()<<",";
+                else cout<<q.front();
+                q.pop_front();
+            }
+        }
+        cout<<"]\n";
+    }
+}
+
+int main()
+{
+    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+
+    int t;
+    cin>>t;
+    for(int i=0;i<t;i++){
+        str.clear();
+        q.clear();
+        cin >> str;
+        cin>>n;
+        string num;
+        cin>>num;
+        string tmps="";
+        for(int j=0;j<num.size();j++){
+            if(n==0) break;
+            if('0'<=num[j]&&num[j]<='9') tmps+=num[j];
+            if(num[j]==','||num[j]==']') {
+                    q.push_back(stoi(tmps));
+                    tmps="";
+            }
+        }
+        cal();
+    }
 }
