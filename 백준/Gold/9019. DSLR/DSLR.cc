@@ -22,7 +22,7 @@ int R(int x){
     return x;
 }
 
-void bfs(int a, int b){
+string bfs(int a, int b){
     bool visit[10000]={};
     queue<pair<int,string>> q;
     q.push({a,""});
@@ -32,8 +32,7 @@ void bfs(int a, int b){
         int x=q.front().first;
         string str=q.front().second;
         if(x==b) {
-                cout<<str<<'\n';
-                return;
+                return str;
         }
 
         q.pop();
@@ -65,7 +64,7 @@ int main()
     for(int i=0;i<t;i++){
         int A,B;
         cin >>A>>B;
-        bfs(A,B);
+        cout<<bfs(A,B)<<"\n";
     }
     return 0;
 }
