@@ -8,43 +8,15 @@ int main()
 
     int n;
     cin>>n;
-    vector<int> v1;
-    for(int t=1;pow(t,2)<50001;t++){
-        if(pow(t,2)==n){
-            cout<<"1";
-            return 0;
+    int dp[50001]={};
+    for(int i=1;i<=n;i++){
+        int mini=5;
+        for(int j=1;j*j<=i;j++){
+            int tmp=i-j*j;
+            mini=min(mini,dp[tmp]);
         }
-        v1.push_back(pow(t,2));
+        dp[i]=mini+1;
     }
-    vector<int> v2;
-    for(int i=0;i<v1.size();i++){
-        for(int j=i;j<v1.size();j++){
-            if(v1[i]+v1[j]==n){
-                cout<<"2";
-                return 0;
-            }
-            v2.push_back(v1[i]+v1[j]);
-        }
-    }
-    vector<int> v3;
-    for(int i=0;i<v1.size();i++){
-        for(int j=i;j<v2.size();j++){
-            if(v1[i]+v2[j]==n){
-                cout<<"3";
-                return 0;
-            }
-            v3.push_back(v1[i]+v2[j]);
-        }
-    }
-    vector<int> v4;
-    for(int i=0;i<v1.size();i++){
-        for(int j=i;j<v3.size();j++){
-            if(v1[i]+v3[j]==n){
-                cout<<"4";
-                return 0;
-            }
-            v4.push_back(v1[i]+v3[j]);
-        }
-    }
+    cout<<dp[n];
     return 0;
 }
