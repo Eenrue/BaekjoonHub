@@ -3,11 +3,11 @@ using namespace std;
 int n;
 vector<int> g[100001];
 bool vis[100001];
+int ans[100001];
 int main()
 {
     ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-    map<int,int> m;
     cin>>n;
     for(int i=0;i<n-1;i++){
         int n1,n2;
@@ -27,13 +27,13 @@ int main()
             int chi=g[par][i];
             if(!vis[chi]){
                 vis[chi]=true;
-                m[chi]=par;
+                ans[chi]=par;
                 q.push(chi);
             }
         }
     }
     for(int i=2;i<=n;i++){
-        cout<<m[i]<<'\n';
+        cout<<ans[i]<<'\n';
     }
 
     return 0;
