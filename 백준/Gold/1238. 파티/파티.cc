@@ -3,50 +3,27 @@ using namespace std;
 
 #define INF 987654321
 int n,m,x;
-int d[1001];
-int xd[1001];
+int d[1001][2];
 
-vector<pair<int,int>> v[1001];
+vector<pair<int,int>> v[1001][2];
 
-int dij(int start){
+
+void dij(int ver){
     priority_queue<pair<int,int>> pq;
-    for(int i=1;i<1001;i++) d[i]=INF;
-    pq.push({0,start});
-    d[start]=0;
-    while(!pq.empty()){
-        int cur=pq.top().second;
-        int dis=-pq.top().first;
-        pq.pop();
-        if(d[cur]<dis) continue;
-
-        for(int i=0;i<v[cur].size();i++){
-            int next=v[cur][i].first;
-            int nextdis=v[cur][i].second+dis;
-            if(nextdis<d[next]){
-                d[next]=nextdis;
-                pq.push({-nextdis,next});
-            }
-        }
-    }
-    return d[x];
-}
-
-
-void xdij(){
-    priority_queue<pair<int,int>> pq;
-    for(int i=1;i<1001;i++) xd[i]=INF;
+    for(int i=1;i<1001;i++) d[i][ver]=INF;
     pq.push({0,x});
-    xd[x]=0;
+    d[x][ver]=0;
     while(!pq.empty()){
         int cur=pq.top().second;
         int dis=-pq.top().first;
         pq.pop();
-        if(xd[cur]<dis) continue;
-        for(int i=0;i<v[cur].size();i++){
-            int next=v[cur][i].first;
-            int nextdis=v[cur][i].second+dis;
-            if(nextdis<xd[next]){
-                xd[next]=nextdis;
+        if(d[cur][ver]<dis) continue;
+
+        for(int i=0;i<v[cur][ver].size();i++){
+            int next=v[cur][ver][i].first;
+            int nextdis=v[cur][ver][i].second+dis;
+            if(nextdis<d[next][ver]){
+                d[next][ver]=nextdis;
                 pq.push({-nextdis,next});
             }
         }
@@ -62,14 +39,16 @@ int main()
     for(int i=0;i<m;i++){
         int n1,n2,n3;
         cin>>n1>>n2>>n3;
-        v[n1].push_back({n2,n3});
+        v[n1][0].push_back({n2,n3});
+        v[n2][1].push_back({n1,n3});
     }
 
 
     int ans=0;
-    xdij();
+    dij(0);
+    dij(1);
     for(int i=1;i<=n;i++){
-        ans=max(ans,dij(i)+xd[i]);
+        ans=max(ans,d[i][0]+d[i][1]);
     }
     cout<<ans;
 
