@@ -15,6 +15,10 @@ void bfs(){
         int dis=pq.top().first;
         int cur=pq.top().second;
         pq.pop();
+        if(cur==k){
+            cout<<d[cur];
+            break;
+        }
         if(d[cur]<dis)continue;
         if(cur-1>=0){
             if(dis+1<d[cur-1]){
@@ -47,7 +51,6 @@ int main()
     for(int i=0;i<100001;i++) d[i]=INF;
 
     bfs();
-    cout<<d[k];
 
 
     return 0;
