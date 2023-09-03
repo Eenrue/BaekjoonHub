@@ -19,7 +19,6 @@ void bfs(){
             cout<<d[cur];
             break;
         }
-        if(d[cur]<dis)continue;
         if(cur-1>=0){
             if(dis+1<d[cur-1]){
                 d[cur-1]=dis+1;
