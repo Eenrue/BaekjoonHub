@@ -3,42 +3,23 @@ using namespace std;
 
 int n;
 vector<pair<int,int>> v[100001];
-int ans;
 bool vis[100001];
+int maxdis;
+int k;
 int dp[100001]={};
 
-int dfs1(int x){
-    for(int i=0;i<v[x].size();i++){
-        int next=v[x][i].first;
-        int nextdis=v[x][i].second;
-        if(vis[next])continue;
-
-        vis[next]=true;
-        dp[x]=max(dp[x],nextdis+dfs1(next));
-        vis[next]=false;
+void dfs(int p,int dis){
+    if(dis>maxdis){
+        maxdis=dis;
+        k=p;
     }
-    return dp[x];
-}
-
-void dfs2(int x){
-    int max1=0;
-    int max2=0;
-    for(int i=0;i<v[x].size();i++){
-        int next=v[x][i].first;
-        int nextdis=v[x][i].second;
+    vis[p]=true;
+    for(int i=0;i<v[p].size();i++){
+        int next=v[p][i].first;
         if(vis[next])continue;
-        int tmp=nextdis+dp[next];
-        max2=max(max2,tmp);
-        if(max2>max1){
-            int sw=max1;
-            max1=max2;
-            max2=sw;
-        }
-        vis[next]=true;
-        dfs2(next);
-        vis[next]=false;
+        dfs(next,dis+v[p][i].second);
     }
-    ans=max(ans,max1+max2);
+    vis[p]=false;
 }
 
 
@@ -48,7 +29,6 @@ int main()
     ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     cin>>n;
 
-    ans=0;
     for(int i=0;i<n;i++){
         int n1;
         cin>>n1;
@@ -60,12 +40,9 @@ int main()
             v[n1].push_back({n2,n3});
         }
     }
-    vis[1]=true;
-    dfs1(1);
-    vis[1]=false;
-
-    vis[1]=true;
-    dfs2(1);
-    cout<<ans;
+    dfs(1,0);
+    memset(vis,0,sizeof(vis));
+    dfs(k,0);
+    cout<<maxdis;
     return 0;
 }
