@@ -50,7 +50,7 @@ int main()
         for(int j=1;j<=n;j++){
             d[i]=INF;
         }
-        if(Bford(1)) cout<<"YES\n";
+        if(Bford(n)) cout<<"YES\n";
         else cout<<"NO\n";
         e.clear();
     }
