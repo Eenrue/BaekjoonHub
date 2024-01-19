@@ -1,54 +1,54 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<algorithm>
+#include<queue>
 using namespace std;
-# define INF 987654321
-typedef long long ll;
 
-int dp[100001]={};
-int res=0;
-int rest=INF;
-int n,k;
+int dist[100002];
+int cnt[100002];
+queue<int> q;
 
-void bfs(){
-
-    deque<pair<int,int>> dq;
-    dq.push_back({n,0});
-    while(!dq.empty()){
-        //cout<<'s';
-        int cur=dq.front().first;
-        int cnt=dq.front().second;
-        dq.pop_front();
-        if(cnt>rest) continue;
-        int flag=0;
-        if(cur==k){
-            if(cnt>rest){
-                flag=1;
-            }
-            rest=cnt;
-            res++;
-        }
-        if(flag==1)break;
-        if(cur<100000&&cnt+1<=dp[cur+1]){
-            dp[cur+1]=cnt+1;
-            dq.push_back({cur+1,cnt+1});
-        }
-        if(cur>0&&cnt+1<=dp[cur-1]){
-            dp[cur-1]=cnt+1;
-            dq.push_back({cur-1,cnt+1});
-        }
-        if(cur*2<=100000&&cnt+1<=dp[cur*2]){
-            dp[cur*2]=cnt+1;
-            dq.push_back({cur*2,cnt+1});
-        }
-    }
-}
-
-
-int main()
+int main(void)
 {
-    cin>>n>>k;
-    for(int i=0;i<100001;i++){
-        dp[i]=INF;
-    }
-    bfs();
-    cout<<rest<<'\n'<<res;
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+
+	int n, k;
+	cin >> n >> k;
+
+	if (n == k)
+	{
+		cout << 0 <<"\n"<<1;
+		return 0;
+	}
+
+	fill(dist, dist + 100002, -1);
+
+	dist[n] = 0;
+	cnt[n] = 1;
+	q.push(n);
+
+	while (!q.empty())
+	{
+		int cur = q.front(); q.pop();
+		for (int nx : {cur + 1, cur - 1, cur * 2})
+		{
+			if (nx < 0 || nx>100000) continue;
+			if (dist[nx] != -1)	//방문 했던 곳이면
+			{
+				if (dist[cur] + 1 == dist[nx])//최단 거리가 같은 경우
+					cnt[nx] += cnt[cur];
+			}
+			else
+				//방문을 처음 했다면
+			{
+				dist[nx] = dist[cur] + 1;	//최단 거리 갱신
+				cnt[nx] = cnt[cur];			//처음 간 경우
+				q.push(nx);
+			}
+		}
+	}
+
+	cout << dist[k] << "\n" << cnt[k];
+
+	return 0;
 }
