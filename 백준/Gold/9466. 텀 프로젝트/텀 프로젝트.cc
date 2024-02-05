@@ -16,8 +16,9 @@ void check(int k){
     }
     else{
         cyc++;
-        done[k]=true;
-        check(mp[k]);
+        for(int i=mp[k];i!=k;i=mp[i]){
+            cyc++;
+        }
     }
     //cout<<'s';
     done[k]=true;
