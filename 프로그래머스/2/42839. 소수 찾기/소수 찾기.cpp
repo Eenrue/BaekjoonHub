@@ -2,8 +2,7 @@
 using namespace std;
 int k=0;
 bool vis[8]={};
-map <int,int> mp;
-string tmp="";
+set<int> s;
 string str="";
 bool check(int n){
     if(n==1||n==0)return false;
@@ -13,28 +12,20 @@ bool check(int n){
     return true;
 }
 
-void dfs(int len,int cnt){
-    if(cnt==len){
-        if(mp[stoi(tmp)]!=0)return;
-        mp[stoi(tmp)]++;
-        cout<<tmp<<' ';
-        if(check(stoi(tmp)))k++;
-        return;
+void dfs(string num){
+    if(num!=""){
+        if(check(stoi(num)))s.insert(stoi(num));
     }
     for(int i=0;i<str.size();i++){
         if(vis[i])continue;
         vis[i]=true;
-        tmp+=str[i];
-        dfs(len,cnt+1);
-        tmp=tmp.substr(0,cnt);
+        dfs(num+str[i]);
         vis[i]=false;
     }
 }
 
 int solution(string numbers) {
     str=numbers;
-    for(int i=1;i<=numbers.size();i++){
-        dfs(i,0);
-    }
-    return k;
+    dfs("");
+    return s.size();
 }
